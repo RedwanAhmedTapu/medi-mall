@@ -21,8 +21,8 @@ export interface Category {
     _id: string;
     name: string;
     price: number;
-    // Add other properties if needed
   }
+  
   
   
   // Product type (if needed)
