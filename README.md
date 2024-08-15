@@ -29,4 +29,4 @@ The Medi Mall Frontend is a React application that interacts with the Medi Mall 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/RedwanAhmedTapu/medi-mall-frontend.git
+   git clone https://github.com/RedwanAhmedTapu/medi-mall.git
