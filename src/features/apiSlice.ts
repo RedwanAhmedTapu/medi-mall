@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Category } from '../types/types';
 import { Variant } from '../types/types';
-import { Product } from '../types/Product';
+import { Product } from '../types/types';
 import { ShippingAddress } from '../types/ShippingAddress';
 
 export const apiSlice = createApi({
