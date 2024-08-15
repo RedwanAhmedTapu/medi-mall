@@ -8,20 +8,20 @@ export interface Category {
     updatedAt?: string; // Optional, depending on if you're fetching this from a database
   }
   
-  // Variant type
   export interface Variant {
     _id: string;
     name: string;
     price: number;
-    createdAt?: string; // Optional, depending on if you're fetching this from a database
-    updatedAt?: string; // Optional, depending on if you're fetching this from a database
+    createdAt?: string;
+    updatedAt?: string;
   }
-
-  export interface ProductVariant {
-    _id: string;
-    name: string;
-    price: number;
-  }
+  
+  // export interface ProductVariant {
+  //   _id: string;
+  //   name: string;
+  //   price: number;
+  // }
+  
   
   
   
@@ -40,7 +40,7 @@ export interface Category {
     primaryCategory: string;
     secondaryCategory?: string; // Optional
     tertiaryCategory?: string; // Optional
-    variants?: ProductVariant[]; // Array of Variant IDs
+    variants?: Variant[]; // Array of Variant IDs
     createdAt?: string; // Optional, depending on if you're fetching this from a database
     updatedAt?: string; // Optional, depending on if you're fetching this from a database
   }
