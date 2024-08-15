@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAddProductMutation, useGetCategoriesQuery, useGetVariantsQuery } from '../../../features/apiSlice';
-import { Category } from '../../../types/types';
-import { Variant } from '../../../types/types';
+import { Category, Variant } from '../../../types/types';
 
 const ProductForm = () => {
   const [name, setName] = useState('');
@@ -18,7 +17,7 @@ const ProductForm = () => {
   const [primaryCategory, setPrimaryCategory] = useState('');
   const [secondaryCategory, setSecondaryCategory] = useState('');
   const [tertiaryCategory, setTertiaryCategory] = useState('');
-  const [variants, setVariants] = useState<string[]>([]);
+  const [selectedVariants, setSelectedVariants] = useState<Variant[]>([]); // Updated to use Variant[]
 
   const { data: categories } = useGetCategoriesQuery();
   const { data: allVariants } = useGetVariantsQuery();
@@ -27,6 +26,9 @@ const ProductForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Map selected variants to their IDs for the mutation
+      const variantIds = selectedVariants.map(variant => variant._id);
+
       await addProduct({
         name,
         slug,
@@ -40,7 +42,7 @@ const ProductForm = () => {
         primaryCategory,
         secondaryCategory,
         tertiaryCategory,
-        variants,
+        variants: variantIds, // Send only the IDs to the server
       }).unwrap();
       alert('Product added successfully');
       // Reset form fields here if needed
@@ -191,8 +193,12 @@ const ProductForm = () => {
         <label htmlFor="variants" className="block text-gray-700">Variants</label>
         <select
           id="variants"
-          value={variants}
-          onChange={(e) => setVariants(Array.from(e.target.selectedOptions, option => option.value))}
+          value={selectedVariants.map(v => v._id)} // Display selected variant IDs
+          onChange={(e) => {
+            const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+            const updatedVariants = allVariants?.filter(variant => selectedValues.includes(variant._id)) || [];
+            setSelectedVariants(updatedVariants);
+          }}
           className="w-full p-2 border rounded-lg"
           multiple
         >
