@@ -1,21 +1,21 @@
-// src/components/withAuth.tsx
-"use client"
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+// // src/components/withAuth.tsx
+// "use client"
+// import { useEffect } from 'react';
+// import { useRouter } from 'next/router';
 
-const withAuth = (WrappedComponent: any) => {
-  return (props: any) => {
-    const router = useRouter();
+// const withAuth = (WrappedComponent: any) => {
+//   return (props: any) => {
+//     const router = useRouter();
 
-    useEffect(() => {
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        router.push('/login');
-      }
-    }, []);
+//     useEffect(() => {
+//       const token = localStorage.getItem('accessToken');
+//       if (!token) {
+//         router.push('/login');
+//       }
+//     }, []);
 
-    return <WrappedComponent {...props} />;
-  };
-};
+//     return <WrappedComponent {...props} />;
+//   };
+// };
 
-export default withAuth;
+// export default withAuth;

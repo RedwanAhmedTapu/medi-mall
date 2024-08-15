@@ -59,6 +59,8 @@ export default function ProductDetail() {
           <img
             src={product.photos[0]}
             alt={product.name}
+            width={500}
+            height={300}
             className="w-full h-auto object-cover rounded-lg border-2 border-gray-200 shadow-sm transition-transform transform hover:scale-105"
           />
         </div>
