@@ -16,6 +16,14 @@ export interface Category {
     createdAt?: string; // Optional, depending on if you're fetching this from a database
     updatedAt?: string; // Optional, depending on if you're fetching this from a database
   }
+
+  export interface ProductVariant {
+    _id: string;
+    name: string;
+    price: number;
+    // Add other properties if needed
+  }
+  
   
   // Product type (if needed)
   export interface Product {
@@ -32,7 +40,7 @@ export interface Category {
     primaryCategory: string;
     secondaryCategory?: string; // Optional
     tertiaryCategory?: string; // Optional
-    variants?: string[]; // Array of Variant IDs
+    variants?: ProductVariant[]; // Array of Variant IDs
     createdAt?: string; // Optional, depending on if you're fetching this from a database
     updatedAt?: string; // Optional, depending on if you're fetching this from a database
   }
