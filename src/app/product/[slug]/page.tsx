@@ -1,25 +1,24 @@
-"use client";
-
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useGetProductsQuery } from '../../../features/apiSlice';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../features/cartSlice';
+import { Product } from '../../../types/types'; // Import Product type
 
 export default function ProductDetail() {
   const router = useRouter();
   const { slug } = useParams();
   const { data: products, isLoading, isError } = useGetProductsQuery();
 
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<Product | null>(null); // Updated type
   const [selectedVariant, setSelectedVariant] = useState<string | undefined>(undefined);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
-      setProduct(foundProduct);
+      setProduct(foundProduct || null); // Ensure the state is set to null if not found
       if (foundProduct?.variants?.length) {
         setSelectedVariant(foundProduct.variants[0].name);
       }
