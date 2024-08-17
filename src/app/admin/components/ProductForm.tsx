@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react';
 import { useAddProductMutation, useGetCategoriesQuery, useGetVariantsQuery } from '../../../features/apiSlice';
 import { Category, Variant } from '../../../types/types';
