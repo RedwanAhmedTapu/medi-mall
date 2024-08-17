@@ -1,16 +1,20 @@
 'use client';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 import { useAddShippingAddressMutation } from '../../features/apiSlice';
 import { toast } from 'react-toastify';
 
 const divisions = [
-  { name: 'Dhaka', districts: [/* ... */] },
-  { name: 'Chattogram', districts: [/* ... */] },
+  { name: 'Dhaka', districts: ['Dhaka District', 'Gazipur', 'Kishoreganj', 'Madaripur', 'Manikganj', 'Munshiganj', 'Narsingdi', 'Narayanganj', 'Tangail'] },
+  { name: 'Chattogram', districts: ['Bandarban', 'Brahmanbaria', 'Chandpur', 'Chattogram', 'Cox\'s Bazar', 'Khagrachari', 'Lakshmipur', 'Noakhali', 'Rangamati'] },
   // Add other divisions and districts here
 ];
 
 const CheckoutPage: React.FC = () => {
   const [addShippingAddress] = useAddShippingAddressMutation();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   const [formState, setFormState] = useState({
     firstName: '',
@@ -181,22 +185,19 @@ const CheckoutPage: React.FC = () => {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Your Order</h2>
           <div className="space-y-4">
-            {/* Replace these hardcoded values with dynamic data as needed */}
-            <div className="flex justify-between">
-              <span>Equipment Product × 1</span>
-              <span>$18.00</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Hand Sanitizer × 1</span>
-              <span>$28.00</span>
-            </div>
+            {cartItems.map(item => (
+              <div key={item.productId} className="flex justify-between">
+                <span>{item.name} × {item.quantity}</span>
+                <span>${item.price * item.quantity}</span>
+              </div>
+            ))}
             <div className="flex justify-between font-bold">
               <span>Subtotal</span>
-              <span>$46.00</span>
+              <span>${totalPrice}</span>
             </div>
             <div className="flex justify-between font-bold">
               <span>Total</span>
-              <span>$46.00</span>
+              <span>${totalPrice}</span>
             </div>
           </div>
         </div>

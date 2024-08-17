@@ -4,8 +4,9 @@ import { Inter } from "next/font/google";
 import "../styles/globals.css"; // Ensure the path is correct
 import { Provider } from "react-redux";
 import { store } from "../store/store"; // Adjust the path if necessary
-import ClientRootLayout from './ClientRootLayout';
+import ClientRootLayout from "./ClientRootLayout";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +24,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ClientRootLayout>
-        <Navbar/>
-
+          <Navbar />
           {children}
+          <Footer/>
         </ClientRootLayout>
       </body>
     </html>

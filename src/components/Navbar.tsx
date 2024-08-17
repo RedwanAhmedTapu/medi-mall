@@ -1,16 +1,26 @@
-"use client"
+'use client';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FiPhoneCall, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
 export default function Navbar() {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="bg-blue-700 shadow-md ">
+    <nav className={`bg-blue-700 shadow-md ${isSticky ? 'fixed top-0 left-0 w-full z-50' : 'relative'} transition-all duration-500`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center ">
+        <div className="flex justify-between h-16 items-center">
           <div className="flex items-center space-x-4 text-white">
             <Link href="/" className="text-2xl font-bold">MyShop</Link>
             <div className="hidden md:flex space-x-4">
