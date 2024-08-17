@@ -2,35 +2,43 @@
 import { useParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useGetProductsQuery } from '../../../features/apiSlice';
+import { useGetProductsQuery, useGetVariantsQuery } from '../../../features/apiSlice';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../features/cartSlice';
-import { Product } from '../../../types/types'; // Import Product type
+import { Product, Variant } from '../../../types/types'; // Import Product and Variant types
 
 export default function ProductDetail() {
   const router = useRouter();
   const { slug } = useParams();
-  const { data: products, isLoading, isError } = useGetProductsQuery();
+  const { data: products, isLoading: productsLoading, isError: productsError } = useGetProductsQuery();
+  const { data: variants, isLoading: variantsLoading, isError: variantsError } = useGetVariantsQuery();
 
-  const [product, setProduct] = useState<Product | null>(null); // Updated type
-  const [selectedVariant, setSelectedVariant] = useState<string | undefined>(undefined);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(undefined);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
-      setProduct(foundProduct || null); // Ensure the state is set to null if not found
-      if (foundProduct?.variants?.length) {
-        setSelectedVariant(foundProduct.variants[0].name);
+      setProduct(foundProduct || null);
+
+      if (foundProduct?.variants && variants) {
+        const foundVariants = foundProduct.variants.map(variantId => 
+          variants.find(variant => variant._id === variantId)
+        ).filter((variant): variant is Variant => !!variant); // Ensure no undefined variants
+
+        if (foundVariants.length > 0) {
+          setSelectedVariant(foundVariants[0]);
+        }
       }
     }
-  }, [products, slug]);
+  }, [products, slug, variants]);
 
-  if (isLoading) {
+  if (productsLoading || variantsLoading) {
     return <div className="text-center text-2xl font-semibold text-blue-600">Loading...</div>;
   }
 
-  if (isError) {
+  if (productsError || variantsError) {
     return <div className="text-center text-2xl font-semibold text-red-600">Error loading products</div>;
   }
 
@@ -39,16 +47,18 @@ export default function ProductDetail() {
   }
 
   const handleAddToCart = () => {
-    dispatch(
-      addToCart({
-        productId: product._id,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-        variant: selectedVariant,
-      })
-    );
-    router.push('/cart');
+    if (selectedVariant) {
+      dispatch(
+        addToCart({
+          productId: product._id,
+          name: product.name,
+          price: selectedVariant.price,
+          quantity: 1,
+          variant: selectedVariant.name,
+        })
+      );
+      router.push('/cart');
+    }
   };
 
   return (
@@ -77,15 +87,21 @@ export default function ProductDetail() {
               </label>
               <select
                 id="variant"
-                value={selectedVariant || product.variants[0].name}
-                onChange={(e) => setSelectedVariant(e.target.value)}
+                value={selectedVariant?.name || ''}
+                onChange={(e) => {
+                  const selected = variants.find(variant => variant.name === e.target.value);
+                  setSelectedVariant(selected);
+                }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                {product.variants.map((variant) => (
-                  <option key={variant.name} value={variant.name}>
-                    {variant.name} - ${variant.price}
-                  </option>
-                ))}
+                {product.variants.map((variantId) => {
+                  const variant = variants.find(variant => variant._id === variantId);
+                  return variant ? (
+                    <option key={variant._id} value={variant.name}>
+                      {variant.name} - ${variant.price}
+                    </option>
+                  ) : null;
+                })}
               </select>
             </div>
           )}
