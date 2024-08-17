@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState } from 'react';
 import { useAddProductMutation, useGetCategoriesQuery, useGetVariantsQuery } from '../../../features/apiSlice';
 import { Category, Variant } from '../../../types/types';
@@ -50,6 +48,7 @@ const ProductForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="p-4 max-w-md mx-auto bg-white rounded-lg shadow-md">
+      {/* Form fields */}
       <div className="mb-4">
         <label htmlFor="name" className="block text-gray-700">Product Name</label>
         <input
@@ -203,15 +202,11 @@ const ProductForm = () => {
           ))}
         </select>
       </div>
-      <button
-        type="submit"
-        className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg"
-        disabled={isLoading}
-      >
+      <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded-lg">
         {isLoading ? 'Adding...' : 'Add Product'}
       </button>
+      {isError && <p className="text-red-500 mt-2">Failed to add product. Please try again.</p>}
       {isSuccess && <p className="text-green-500 mt-2">Product added successfully!</p>}
-      {isError && <p className="text-red-500 mt-2">Failed to add product.</p>}
     </form>
   );
 };

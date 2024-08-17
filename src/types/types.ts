@@ -40,7 +40,7 @@ export interface Category {
     primaryCategory: string;
     secondaryCategory?: string; // Optional
     tertiaryCategory?: string; // Optional
-    variants?: Variant[]; // Array of Variant IDs
+    variants?: string[]; // Array of Variant IDs
     createdAt?: string; // Optional, depending on if you're fetching this from a database
     updatedAt?: string; // Optional, depending on if you're fetching this from a database
   }
