@@ -127,7 +127,7 @@ export default function ProductDetail() {
                 }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                {product.variants &&
+                {/* {product.variants &&
                   product.variants.map((variantId) => {
                     const variant = variants?.find(
                       (variant) => variant._id === variantId._id
@@ -137,7 +137,7 @@ export default function ProductDetail() {
                         {variant.name} - ${variant.price}
                       </option>
                     ) : null;
-                  })}
+                  })} */}
               </select>
             </div>
           )}
