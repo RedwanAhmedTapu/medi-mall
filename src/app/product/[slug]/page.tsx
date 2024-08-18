@@ -35,15 +35,15 @@ export default function ProductDetail() {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
 
-      if (foundProduct?.variants && variants) {
-        const firstVariantId = foundProduct?.variants[0]._id;
-        console.log(firstVariantId)
-        const firstVariant = variants.find(
-          (variant) => variant._id === firstVariantId
-        );
-        console.log(foundProduct);
-        setSelectedVariant(firstVariant); // Set the first variant as selectedVariant
-      }
+      // if (foundProduct?.variants && variants) {
+      //   const firstVariantId = foundProduct?.variants[0]._id;
+      //   console.log(firstVariantId)
+      //   const firstVariant = variants.find(
+      //     (variant) => variant._id === firstVariantId
+      //   );
+      //   console.log(firstVariant);
+      //   setSelectedVariant(firstVariant); 
+      // }
     }
   }, [products, slug, variants]);
 
