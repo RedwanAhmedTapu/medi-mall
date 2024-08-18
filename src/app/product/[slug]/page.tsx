@@ -31,12 +31,15 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (products && slug) {
+    if (products && slug && variants) {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
 
       if (foundProduct?.variants && variants) {
-        const firstVariant = foundProduct.variants[0]; // Access the first variant object
+        const firstVariantId = foundProduct.variants[0]; // Assuming variants is an array of IDs
+        const firstVariant = variants.find(
+          (variant) => variant._id.toString() === firstVariantId.toString()
+        );
         setSelectedVariant(firstVariant);
       }
     }
@@ -112,18 +115,23 @@ export default function ProductDetail() {
                 id="variant"
                 value={selectedVariant?.name || ""}
                 onChange={(e) => {
-                  const selected = product.variants.find(
+                  const selected = variants.find(
                     (variant) => variant.name === e.target.value
                   );
                   setSelectedVariant(selected);
                 }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                {product.variants.map((variant) => (
-                  <option key={variant._id} value={variant.name}>
-                    {variant.name} - ${variant.price}
-                  </option>
-                ))}
+                {product.variants.map((variantId) => {
+                  const variant = variants.find(
+                    (variant) => variant._id.toString() === variantId.toString()
+                  );
+                  return variant ? (
+                    <option key={variant._id.toString()} value={variant.name}>
+                      {variant.name} - ${variant.price}
+                    </option>
+                  ) : null;
+                })}
               </select>
             </div>
           )}
