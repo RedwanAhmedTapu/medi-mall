@@ -1,47 +1,74 @@
-'use client'
-import { useParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useGetProductsQuery, useGetVariantsQuery } from '../../../features/apiSlice';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../../../features/cartSlice';
-import { Product, Variant } from '../../../types/types'; // Import Product and Variant types
+"use client";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useGetProductsQuery,
+  useGetVariantsQuery,
+} from "../../../features/apiSlice";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../features/cartSlice";
+import { Product, Variant } from "../../../types/types"; // Import Product and Variant types
 
 export default function ProductDetail() {
   const router = useRouter();
   const { slug } = useParams();
-  const { data: products, isLoading: productsLoading, isError: productsError } = useGetProductsQuery();
-  const { data: variants, isLoading: variantsLoading, isError: variantsError } = useGetVariantsQuery();
+  const {
+    data: products,
+    isLoading: productsLoading,
+    isError: productsError,
+  } = useGetProductsQuery();
+  const {
+    data: variants,
+    isLoading: variantsLoading,
+    isError: variantsError,
+  } = useGetVariantsQuery();
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(undefined);
+  const [selectedVariant, setSelectedVariant] = useState<Variant | undefined>(
+    undefined
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
-  
+
       if (foundProduct?.variants && variants) {
-        const firstVariantId = foundProduct.variants[0];
-        const firstVariant = variants.find(variant => variant._id === firstVariantId);
-        console.log(firstVariant)
+        const firstVariantId = foundProduct.variants[0]._id;
+        console.log(firstVariantId)
+        const firstVariant = variants.find(
+          (variant) => variant._id === firstVariantId
+        );
+        console.log(firstVariant);
         setSelectedVariant(firstVariant); // Set the first variant as selectedVariant
       }
     }
   }, [products, slug, variants]);
-  
 
   if (productsLoading || variantsLoading) {
-    return <div className="text-center text-2xl font-semibold text-blue-600">Loading...</div>;
+    return (
+      <div className="text-center text-2xl font-semibold text-blue-600">
+        Loading...
+      </div>
+    );
   }
 
   if (productsError || variantsError) {
-    return <div className="text-center text-2xl font-semibold text-red-600">Error loading products</div>;
+    return (
+      <div className="text-center text-2xl font-semibold text-red-600">
+        Error loading products
+      </div>
+    );
   }
 
   if (!product) {
-    return <div className="text-center text-2xl font-semibold text-yellow-600">Product not found</div>;
+    return (
+      <div className="text-center text-2xl font-semibold text-yellow-600">
+        Product not found
+      </div>
+    );
   }
 
   const handleAddToCart = () => {
@@ -55,7 +82,7 @@ export default function ProductDetail() {
           variant: selectedVariant.name,
         })
       );
-      router.push('/cart');
+      router.push("/cart");
     }
   };
 
@@ -77,29 +104,40 @@ export default function ProductDetail() {
         <div className="text-gray-900">
           <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
           <p className="mb-6 text-lg">{product.description}</p>
-          
+
           {product.variants && product.variants.length > 0 && (
             <div className="mt-6">
-              <label htmlFor="variant" className="block text-md font-medium text-gray-700">
+              <label
+                htmlFor="variant"
+                className="block text-md font-medium text-gray-700"
+              >
                 Choose a variant:
               </label>
               <select
                 id="variant"
-                value={selectedVariant?.name || ''}
+                value={selectedVariant?.name || ""}
                 onChange={(e) => {
-                  const selected = variants.find(variant => variant.name === e.target.value);
-                  setSelectedVariant(selected);
+                  if (variants) {
+                    // Check if variants is defined
+                    const selected = variants.find(
+                      (variant) => variant.name === e.target.value
+                    );
+                    setSelectedVariant(selected);
+                  }
                 }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                {product.variants.map((variantId) => {
-                  const variant = variants.find(variant => variant._id === variantId);
-                  return variant ? (
-                    <option key={variant._id} value={variant.name}>
-                      {variant} - ${variant.price}
-                    </option>
-                  ) : null;
-                })}
+                {product.variants &&
+                  product.variants.map((variantId) => {
+                    const variant = variants?.find(
+                      (variant) => variant._id === variantId._id
+                    );
+                    return variant ? (
+                      <option key={variant._id} value={variant.name}>
+                        {variant.name} - ${variant.price}
+                      </option>
+                    ) : null;
+                  })}
               </select>
             </div>
           )}
