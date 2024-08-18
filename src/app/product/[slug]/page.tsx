@@ -21,18 +21,16 @@ export default function ProductDetail() {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
-
+  
       if (foundProduct?.variants && variants) {
-        const foundVariants = foundProduct.variants.map(variantId => 
-          variants.find(variant => variant._id === variantId)
-        ).filter((variant): variant is Variant => !!variant); // Ensure no undefined variants
-
-        if (foundVariants.length > 0) {
-          setSelectedVariant(foundVariants[0]);
-        }
+        const firstVariantId = foundProduct.variants[0];
+        const firstVariant = variants.find(variant => variant._id === firstVariantId);
+        console.log(firstVariant)
+        setSelectedVariant(firstVariant); // Set the first variant as selectedVariant
       }
     }
   }, [products, slug, variants]);
+  
 
   if (productsLoading || variantsLoading) {
     return <div className="text-center text-2xl font-semibold text-blue-600">Loading...</div>;
@@ -98,7 +96,7 @@ export default function ProductDetail() {
                   const variant = variants.find(variant => variant._id === variantId);
                   return variant ? (
                     <option key={variant._id} value={variant.name}>
-                      {variant.name} - ${variant.price}
+                      {variant} - ${variant.price}
                     </option>
                   ) : null;
                 })}
