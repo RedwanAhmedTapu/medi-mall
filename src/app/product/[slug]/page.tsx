@@ -34,18 +34,15 @@ export default function ProductDetail() {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
-
+  
       if (foundProduct?.variants && variants) {
-        const firstVariantId = foundProduct.variants[0]._id;
-        console.log(firstVariantId)
-        const firstVariant = variants.find(
-          (variant) => variant._id === firstVariantId
-        );
-        console.log(firstVariant);
+        const firstVariantId = foundProduct.variants[0]; // This is already the ID, no need to access _id
+        const firstVariant = variants.find(variant => variant._id === firstVariantId); // Find the Variant object by ID
         setSelectedVariant(firstVariant); // Set the first variant as selectedVariant
       }
     }
   }, [products, slug, variants]);
+  
 
   if (productsLoading || variantsLoading) {
     return (
