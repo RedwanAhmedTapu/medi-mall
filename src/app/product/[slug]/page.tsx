@@ -130,10 +130,10 @@ export default function ProductDetail() {
                 {product.variants &&
                   product.variants.map((variantId) => {
                     const variant = variants?.find(
-                      (variant) => variant._id === variantId
+                      (variant) => variant === variantId
                     );
                     return variant ? (
-                      <option key={variant._id} value={variant.name}>
+                      <option key={variant} value={variant.name}>
                         {variant.name} - ${variant.price}
                       </option>
                     ) : null;
