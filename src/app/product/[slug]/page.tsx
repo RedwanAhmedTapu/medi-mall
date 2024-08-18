@@ -35,13 +35,17 @@ export default function ProductDetail() {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
 
-      if (foundProduct?.variants && foundProduct.variants.length > 0) {
-        const firstVariant = foundProduct.variants[0]; // Directly access the first Variant object
-        console.log(firstVariant);
-        setSelectedVariant(firstVariant); // Set the first variant as the selectedVariant
+      if (foundProduct?.variants && variants) {
+        const firstVariantId = foundProduct?.variants[0]._id;
+        console.log(firstVariantId)
+        const firstVariant = variants.find(
+          (variant) => variant._id === firstVariantId
+        );
+        console.log(foundProduct);
+        setSelectedVariant(firstVariant); // Set the first variant as selectedVariant
       }
     }
-  }, [products, slug]);
+  }, [products, slug, variants]);
 
   if (productsLoading || variantsLoading) {
     return (
@@ -114,6 +118,7 @@ export default function ProductDetail() {
                 value={selectedVariant?.name || ""}
                 onChange={(e) => {
                   if (variants) {
+                    // Check if variants is defined
                     const selected = variants.find(
                       (variant) => variant.name === e.target.value
                     );
@@ -123,13 +128,15 @@ export default function ProductDetail() {
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
                 {product.variants &&
-                  product.variants.map((variant) => {
-                    // Each variantId in product.variants is already a variant object
-                    return (
+                  product.variants.map((variantId) => {
+                    const variant = variants?.find(
+                      (variant) => variant._id === variantId._id
+                    );
+                    return variant ? (
                       <option key={variant._id} value={variant.name}>
                         {variant.name} - ${variant.price}
                       </option>
-                    );
+                    ) : null;
                   })}
               </select>
             </div>
