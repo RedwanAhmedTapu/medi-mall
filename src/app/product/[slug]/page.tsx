@@ -36,13 +36,8 @@ export default function ProductDetail() {
       setProduct(foundProduct || null);
 
       if (foundProduct?.variants && variants) {
-        const firstVariantId = foundProduct?.variants[0]._id.toString();
-        console.log(firstVariantId)
-        const firstVariant = variants.find(
-          (variant) => variant._id.toString() === firstVariantId
-        );
-        console.log(firstVariant);
-        setSelectedVariant(firstVariant); 
+        const firstVariant = foundProduct.variants[0]; // Access the first variant object
+        setSelectedVariant(firstVariant);
       }
     }
   }, [products, slug, variants]);
@@ -117,27 +112,18 @@ export default function ProductDetail() {
                 id="variant"
                 value={selectedVariant?.name || ""}
                 onChange={(e) => {
-                  if (variants) {
-                    // Check if variants is defined
-                    const selected = variants.find(
-                      (variant) => variant.name === e.target.value
-                    );
-                    setSelectedVariant(selected);
-                  }
+                  const selected = product.variants.find(
+                    (variant) => variant.name === e.target.value
+                  );
+                  setSelectedVariant(selected);
                 }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                {product.variants &&
-                  product.variants.map((variantId) => {
-                    const variant = variants?.find(
-                      (variant) => variant._id === variantId._id.toString()
-                    );
-                    return variant ? (
-                      <option key={variant._id.toString()} value={variant.name}>
-                        {variant.name} - ${variant.price}
-                      </option>
-                    ) : null;
-                  })}
+                {product.variants.map((variant) => (
+                  <option key={variant._id} value={variant.name}>
+                    {variant.name} - ${variant.price}
+                  </option>
+                ))}
               </select>
             </div>
           )}
