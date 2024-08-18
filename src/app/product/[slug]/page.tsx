@@ -36,10 +36,10 @@ export default function ProductDetail() {
       setProduct(foundProduct || null);
 
       if (foundProduct?.variants && variants) {
-        const firstVariantId = foundProduct?.variants[0]._id;
+        const firstVariantId = foundProduct?.variants[0]._id.toString();
         console.log(firstVariantId)
         const firstVariant = variants.find(
-          (variant) => variant._id === firstVariantId
+          (variant) => variant._id.toString() === firstVariantId
         );
         console.log(firstVariant);
         setSelectedVariant(firstVariant); 
@@ -130,10 +130,10 @@ export default function ProductDetail() {
                 {product.variants &&
                   product.variants.map((variantId) => {
                     const variant = variants?.find(
-                      (variant) => variant._id === variantId._id
+                      (variant) => variant._id === variantId._id.toString()
                     );
                     return variant ? (
-                      <option key={variant._id} value={variant.name}>
+                      <option key={variant._id.toString()} value={variant.name}>
                         {variant.name} - ${variant.price}
                       </option>
                     ) : null;
