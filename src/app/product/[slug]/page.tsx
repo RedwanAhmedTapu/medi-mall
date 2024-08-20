@@ -40,10 +40,13 @@ export default function ProductDetail() {
         const firstVariant = variants.find(
           (variant: Variant) => variant._id === firstVariantId
         ); // Find the corresponding Variant object
-        setSelectedVariant(firstVariant);
+        setSelectedVariant(selectedVariant);
+        console.log(selectedVariant, "select");
       }
     }
-  }, [products, slug, variants]);
+  }, [products, slug, variants, selectedVariant]);
+  console.log(selectedVariant, "select");
+  console.log(product, "product");
 
   if (productsLoading || variantsLoading) {
     return (
@@ -119,6 +122,7 @@ export default function ProductDetail() {
                     (variant) => variant.name === e.target.value
                   );
                   setSelectedVariant(selected);
+                  console.log(selected, "onchange selected");
                 }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >

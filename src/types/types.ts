@@ -9,11 +9,11 @@ export interface Category {
   }
   
   export interface Variant {
-    _id: string;
     name: string;
     price: number;
-    createdAt?: string;
-    updatedAt?: string;
+    _id: string;
+
+   
   }
   
   // export interface ProductVariant {
