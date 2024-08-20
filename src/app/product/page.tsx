@@ -4,27 +4,19 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetProductsQuery } from "../../features/apiSlice";
 import { FaAngleRight } from "react-icons/fa";
-import { addToCart } from "../../features/cartSlice"; // Adjust the import according to your folder structure
-import CartModal from "./components/CartModal"; // Import your modal component
+import { addToCart } from "../../features/cartSlice";
+import CartModal from "./components/CartModal";
 import { RootState } from '../../store/store';
-import {Product } from "../../types/Products";
+import { Product } from "@/types/Products";
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
-  const [cartButtonStates, setCartButtonStates] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const [cartButtonStates, setCartButtonStates] = useState<{ [key: string]: boolean }>({});
 
-
-  
-  const dispatch = useDispatch(); // Initialize dispatch from redux
-  const { data: products, isLoading, isError } = useGetProductsQuery();
-  const cartItems = useSelector((state: RootState) => {
-  // console.table(state.cart.items); // Displays the cart items in a table format
-  return state.cart.items;
-});
-
+  const dispatch = useDispatch();
+  const { data: products = [], isLoading, isError } = useGetProductsQuery();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const categories = [
     { id: "accessories", name: "Accessories" },
@@ -46,16 +38,15 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId);
   };
 
-
- 
-  const handleAddToCart = (product:any) => {
+  const handleAddToCart = (product: Product) => {
+    console.log(product, "add");
     dispatch(
       addToCart({
         productId: product._id,
         name: product.name,
         price: product.price,
         quantity: 1, // Default quantity to 1 or adjust as needed
-        variant: product.primaryCategoryId.name, // Adjust based on how you handle variants
+        variant: product.primaryCategoryId?.name || "", // Adjust based on how you handle variants
       })
     );
     setCartButtonStates((prevState) => ({
@@ -73,10 +64,11 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = selectedCategory
-    ? products?.filter(
-        (product) => product.primaryCategory === selectedCategory
-      )
-    : products;
+    ? products.filter(
+        (product: Product) =>
+          product.primaryCategoryId?.name === selectedCategory
+      ) || [] // Default to an empty array if `products` is `undefined`
+    : products || []; // Default to an empty array if `products` is `undefined`
 
   return (
     <div className="flex">
@@ -112,7 +104,7 @@ export default function ProductsPage() {
       <main className="flex-1 p-4">
         {isLoading && <p>Loading products...</p>}
         {isError && <p>Error loading products</p>}
-        {!isLoading && !isError && filteredProducts && (
+        {!isLoading && !isError && filteredProducts.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <div key={product._id} className="border rounded-lg p-4">
