@@ -50,7 +50,7 @@ export default function ProductsPage() {
     _id: string;
     name: string;
     price: number;
-    primaryCategoryId: {
+    primaryCategory: {
       name: string;
     };
     photos: string[];
@@ -63,7 +63,7 @@ export default function ProductsPage() {
         name: product.name,
         price: product.price,
         quantity: 1, // Default quantity to 1 or adjust as needed
-        variant: product.primaryCategoryId.name, // Adjust based on how you handle variants
+        variant: product.primaryCategory.name, // Adjust based on how you handle variants
       })
     );
     setCartButtonStates((prevState) => ({
