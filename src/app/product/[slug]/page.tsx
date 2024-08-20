@@ -113,21 +113,24 @@ export default function ProductDetail() {
                 Choose a variant:
               </label>
               <select
-  id="variant"
-  value={selectedVariant?.name || ""}
+  id ="variant"
+  value={selectedVariant?._id || ""}
   onChange={(e) => {
-    const selected = product.variants?.find(
-      (variant) => variant.name === e.target.value
+    const selected = variants?.find(
+      (variant) => variant._id === e.target.value
     );
     setSelectedVariant(selected);
   }}
   className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
 >
-  {product.variants?.map((variant) => (
-    <option key={variant._id} value={variant.name}>
-      {variant.name} - ${variant.price}
-    </option>
-  ))}
+  {product.variants?.map((variantId) => {
+    const variant = variants?.find((v) => v._id === variantId);
+    return (
+      <option key={variant?._id} value={variant?._id}>
+        {variant?.name} - ${variant?.price}
+      </option>
+    );
+  })}
 </select>
 
             </div>
