@@ -7,7 +7,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { addToCart } from "../../features/cartSlice"; // Adjust the import according to your folder structure
 import CartModal from "./components/CartModal"; // Import your modal component
 import { RootState } from '../../store/store';
-import Product from "../../types/types"
+import {Product} from "../../types/types"
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
