@@ -34,13 +34,17 @@ export default function ProductDetail() {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
       setProduct(foundProduct || null);
-
+  
       if (foundProduct?.variants && variants) {
-        const firstVariant = foundProduct.variants[0]; // Access the first variant object
+        const firstVariantId = foundProduct.variants[0]; // Get the first variant ID
+        const firstVariant = variants.find(
+          (variant: Variant) => variant._id === firstVariantId
+        ); // Find the corresponding Variant object
         setSelectedVariant(firstVariant);
       }
     }
   }, [products, slug, variants]);
+  
 
   if (productsLoading || variantsLoading) {
     return (
