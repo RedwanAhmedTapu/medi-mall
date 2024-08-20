@@ -18,7 +18,7 @@ export default function ProductsPage() {
   const dispatch = useDispatch(); // Initialize dispatch from redux
   const { data: products, isLoading, isError } = useGetProductsQuery();
   const cartItems = useSelector((state: RootState) => {
-  console.table(state.cart.items); // Displays the cart items in a table format
+  // console.table(state.cart.items); // Displays the cart items in a table format
   return state.cart.items;
 });
 
