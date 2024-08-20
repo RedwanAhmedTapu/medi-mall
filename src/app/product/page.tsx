@@ -74,7 +74,7 @@ export default function ProductsPage() {
 
   const filteredProducts = selectedCategory
     ? products?.filter(
-        (product) => product.primaryCategoryId.name === selectedCategory
+        (product) => product.primaryCategory === selectedCategory
       )
     : products;
 
