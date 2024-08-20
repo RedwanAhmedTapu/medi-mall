@@ -46,7 +46,6 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId);
   };
 
-   console.log(products[0])
 
  
   const handleAddToCart = (product) => {
