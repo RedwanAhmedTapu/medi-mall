@@ -20,7 +20,7 @@ export interface Category {
     discount?: number;
     stockStatus: boolean;
     status: boolean;
-    primaryCategoryId: Category;
+    primaryCategoryId?: Category;
     secondaryCategoryId?: Category;
     tertiaryCategoryId?: Category;
     variants?: Variant[];

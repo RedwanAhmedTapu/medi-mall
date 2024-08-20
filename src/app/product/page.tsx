@@ -7,7 +7,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { addToCart } from "../../features/cartSlice"; // Adjust the import according to your folder structure
 import CartModal from "./components/CartModal"; // Import your modal component
 import { RootState } from '../../store/store';
-import {Product } from "../../types/Products"
+import {Product } from "../../types/Products";
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -46,10 +46,10 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId);
   };
 
-   console.log(products)
+   console.log(products[0])
 
  
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product) => {
     dispatch(
       addToCart({
         productId: product._id,
