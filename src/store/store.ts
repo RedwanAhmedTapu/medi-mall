@@ -29,8 +29,8 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore specific paths of non-serializable values if necessary
-        ignoredActions: ['persist/PERSIST'], // Example: ignore actions from redux-persist
-        ignoredPaths: ['persist.persistentStorage'], // Example: ignore specific paths
+        ignoredActions: ['persist/PERSIST'], // Ignore actions from redux-persist
+        ignoredPaths: ['persist.persistentStorage'], // Ignore specific paths
       },
     }).concat(apiSlice.middleware),
 });
