@@ -114,7 +114,7 @@ export default function ProductDetail() {
               >
                 Choose a variant:
               </label>
-              <select
+              {/* <select
                 id="variant"
                 value={selectedVariant?.name || ""}
                 onChange={(e) => {
@@ -131,7 +131,7 @@ export default function ProductDetail() {
                     {variant.name} - ${variant.price}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
           )}
 
