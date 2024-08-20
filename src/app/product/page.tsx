@@ -15,6 +15,8 @@ export default function ProductsPage() {
     [key: string]: boolean;
   }>({});
 
+
+  
   const dispatch = useDispatch(); // Initialize dispatch from redux
   const { data: products, isLoading, isError } = useGetProductsQuery();
   const cartItems = useSelector((state: RootState) => {
@@ -43,7 +45,18 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId);
   };
 
-  const handleAddToCart = (product) => {
+
+  interface Product {
+    _id: string;
+    name: string;
+    price: number;
+    primaryCategoryId: {
+      name: string;
+    };
+    photos: string[];
+    // Add other properties if your product object has more
+  }
+  const handleAddToCart = (product: Product) => {
     dispatch(
       addToCart({
         productId: product._id,
