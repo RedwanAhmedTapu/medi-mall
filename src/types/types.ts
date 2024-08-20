@@ -12,8 +12,7 @@ export interface Category {
     _id: string;
     name: string;
     price: number;
-    createdAt?: string;
-    updatedAt?: string;
+   
   }
   
   // export interface ProductVariant {
