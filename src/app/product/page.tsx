@@ -48,7 +48,7 @@ export default function ProductsPage() {
 
 
  
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product:any) => {
     dispatch(
       addToCart({
         productId: product._id,
