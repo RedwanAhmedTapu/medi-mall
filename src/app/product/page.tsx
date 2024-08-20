@@ -7,7 +7,7 @@ import { FaAngleRight } from "react-icons/fa";
 import { addToCart } from "../../features/cartSlice"; // Adjust the import according to your folder structure
 import CartModal from "./components/CartModal"; // Import your modal component
 import { RootState } from '../../store/store';
-import {Products } from "../../types/types"
+import {Product } from "../../types/Products"
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -46,16 +46,17 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId);
   };
 
+   console.log(products)
 
  
-  const handleAddToCart = (product: Products) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(
       addToCart({
         productId: product._id,
         name: product.name,
         price: product.price,
         quantity: 1, // Default quantity to 1 or adjust as needed
-        variant: product.primaryCategory.name, // Adjust based on how you handle variants
+        variant: product.primaryCategoryId.name, // Adjust based on how you handle variants
       })
     );
     setCartButtonStates((prevState) => ({
@@ -74,7 +75,7 @@ export default function ProductsPage() {
 
   const filteredProducts = selectedCategory
     ? products?.filter(
-        (product) => product.primaryCategory.name === selectedCategory
+        (product) => product.primaryCategoryId.name === selectedCategory
       )
     : products;
 
