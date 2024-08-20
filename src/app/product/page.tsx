@@ -14,8 +14,8 @@ export default function ProductsPage() {
   const [isCartModalOpen, setIsCartModalOpen] = useState(false);
   const [cartButtonStates, setCartButtonStates] = useState<{ [key: string]: boolean }>({});
 
-  const dispatch = useDispatch();
-  const { data: products = [], isLoading, isError } = useGetProductsQuery();
+  const dispatch = useDispatch(); // Initialize dispatch from redux
+  const { data: products, isLoading, isError } = useGetProductsQuery();
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const categories = [
@@ -64,11 +64,12 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = selectedCategory
-    ? products.filter(
-        (product: Product) =>
+    ? products?.filter(
+        (product:Product) =>
           product.primaryCategoryId?.name === selectedCategory
-      ) || [] // Default to an empty array if `products` is `undefined`
-    : products || []; // Default to an empty array if `products` is `undefined`
+      )
+    : products;
+    console.log(filteredProducts,"fil")
 
   return (
     <div className="flex">
@@ -104,7 +105,7 @@ export default function ProductsPage() {
       <main className="flex-1 p-4">
         {isLoading && <p>Loading products...</p>}
         {isError && <p>Error loading products</p>}
-        {!isLoading && !isError && filteredProducts.length > 0 && (
+        {!isLoading && !isError && filteredProducts && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredProducts.map((product) => (
               <div key={product._id} className="border rounded-lg p-4">
