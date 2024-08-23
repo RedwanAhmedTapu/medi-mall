@@ -5,6 +5,8 @@ import { useGetProductsQuery } from '../features/apiSlice';
 import { addToCart } from '../features/cartSlice'; // Adjust the import according to your folder structure
 import CartModal from '../app/product/components/CartModal'; // Import your modal component
 import Link from 'next/link';
+import { RootState } from '@/store/store';
+import { Product } from '@/types/Products';
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -26,14 +28,14 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId === 'all' ? null : categoryId);
   };
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (product:Product) => {
     dispatch(
       addToCart({
         productId: product._id,
         name: product.name,
         price: product.price,
         quantity: 1, // Default quantity to 1 or adjust as needed
-        variant: product.primaryCategoryId.name, // Adjust based on how you handle variants
+        variant: product.primaryCategoryId?.name || "", // Adjust based on how you handle variants
       })
     );
     setCartButtonStates((prevState) => ({
@@ -51,10 +53,11 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = selectedCategory
-    ? products?.filter(
-        (product) => product.primaryCategoryId.name === selectedCategory
-      )
-    : products;
+  ? products?.filter(
+      (product) =>
+        (product as Product).primaryCategoryId?.name === selectedCategory
+    )
+  : products;
 
   return (
     <div className="flex">
@@ -110,7 +113,7 @@ export default function ProductsPage() {
                       if (getButtonState(product._id)) {
                         handleViewCart();
                       } else {
-                        handleAddToCart(product);
+                        handleAddToCart(product as Product);
                       }
                     }}
                     className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded-lg"
