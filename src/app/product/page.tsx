@@ -64,12 +64,12 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = selectedCategory
-    ? products?.filter(
-        (product:Product) =>
-          product.primaryCategoryId?.name === selectedCategory
-      )
-    : products;
-    console.log(filteredProducts,"fil")
+  ? products?.filter(
+      (product) =>
+        (product as Product).primaryCategoryId?.name === selectedCategory
+    )
+  : products;
+
 
   return (
     <div className="flex">
@@ -123,7 +123,8 @@ export default function ProductsPage() {
                     if (getButtonState(product._id)) {
                       handleViewCart();
                     } else {
-                      handleAddToCart(product);
+                      console.log(product,"if")
+                      handleAddToCart(product as Product);
                     }
                   }}
                   className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded-lg"
