@@ -5,6 +5,7 @@ import HomeSection from "@/components/HomeSection";
 import ProductCategories from "@/components/ProductCategories";
 import HomeProductShow from "../components/HomeProductShow";
 import BannerList from "@/components/BannerList";
+import BrandsSection from "@/components/BrandProduct";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
       <ProductCategories/>
       <HomeProductShow/>
       <BannerList/>
+      <BrandsSection/>
     </main>
   );
 }

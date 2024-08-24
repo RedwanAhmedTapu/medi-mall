@@ -8,7 +8,8 @@ import {
 } from "../../../features/apiSlice";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../features/cartSlice";
-import { Product, Variant } from "../../../types/types"; // Import Product and Variant types
+import { Variant } from "../../../types/Products"; 
+import { Product } from "@/types/Products";
 
 export default function ProductDetail() {
   const router = useRouter();
@@ -33,20 +34,17 @@ export default function ProductDetail() {
   useEffect(() => {
     if (products && slug) {
       const foundProduct = products.find((item) => item.slug === slug);
-      setProduct(foundProduct || null);
+      setProduct(foundProduct as Product);
 
       if (foundProduct?.variants && variants) {
         const firstVariantId = foundProduct.variants[0]; // Get the first variant ID
         const firstVariant = variants.find(
           (variant: Variant) => variant._id === firstVariantId
         ); // Find the corresponding Variant object
-        setSelectedVariant(selectedVariant);
-        console.log(selectedVariant, "select");
+        setSelectedVariant(firstVariant);
       }
     }
-  }, [products, slug, variants, selectedVariant]);
-  console.log(selectedVariant, "select");
-  console.log(product, "product");
+  }, [products, slug, variants]);
 
   if (productsLoading || variantsLoading) {
     return (
@@ -114,24 +112,28 @@ export default function ProductDetail() {
               >
                 Choose a variant:
               </label>
-              {/* <select
+              <select
                 id="variant"
-                value={selectedVariant?.name || ""}
+                value={selectedVariant?._id || ""}
                 onChange={(e) => {
-                  const selected = product.variants?.find(
-                    (variant) => variant.name === e.target.value
+                  const selected = variants?.find(
+                    (variant: Variant) => variant._id === e.target.value
                   );
                   setSelectedVariant(selected);
-                  console.log(selected, "onchange selected");
                 }}
                 className="mt-2 block w-full pl-3 pr-10 py-2 text-base bg-white text-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               >
-                {product.variants?.map((variant) => (
-                  <option key={variant._id} value={variant.name}>
-                    {variant.name} - ${variant.price}
-                  </option>
-                ))}
-              </select> */}
+                {product.variants.map((currentVariant) => {
+                  const variant = variants?.find(
+                    (variant: Variant) => variant._id === currentVariant._id
+                  );
+                  return (
+                    <option key={variant?._id} value={variant?._id}>
+                      {variant?.name} - ${variant?.price}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
           )}
 

@@ -5,6 +5,7 @@ import "../styles/globals.css"; // Ensure the path is correct
 import { Provider } from "react-redux";
 import { store } from "../store/store"; // Adjust the path if necessary
 import ClientRootLayout from "./ClientRootLayout";
+import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ClientRootLayout>
+          <Header/>
           <Navbar />
           {children}
           <Footer/>

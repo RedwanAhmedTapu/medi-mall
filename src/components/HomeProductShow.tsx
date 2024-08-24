@@ -28,7 +28,7 @@ export default function ProductsPage() {
     setSelectedCategory(categoryId === 'all' ? null : categoryId);
   };
 
-  const handleAddToCart = (product:Product) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(
       addToCart({
         productId: product._id,
@@ -53,16 +53,16 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = selectedCategory
-  ? products?.filter(
-      (product) =>
-        (product as Product).primaryCategoryId?.name === selectedCategory
-    )
-  : products;
+    ? products?.filter(
+        (product) =>
+          (product as Product).primaryCategoryId?.name === selectedCategory
+      )
+    : products;
 
   return (
-    <div className="flex">
-      {/* Sidebar with Banner */}
-      <aside className="w-64 p-4 border-r">
+    <div className="flex flex-col lg:flex-row">
+      {/* Sidebar with Banner (Hidden on Mobile) */}
+      <aside className="w-full lg:w-64 p-4 border-r hidden lg:block">
         <img
           src="https://radiustheme.com/demo/wordpress/themes/medimall/wp-content/uploads/2022/06/ad-banner_4.png"
           alt="Banner"
@@ -72,18 +72,18 @@ export default function ProductsPage() {
 
       {/* Main Content */}
       <main className="flex-1 p-4">
-        <div className="flex mb-4 justify-center items-center">
-          <h2 className="text-2xl font-semibold text-slate -800">Our Latest Products</h2>
+        <div className="flex justify-center items-center mb-4">
+          <h2 className="text-xl md:text-2xl font-semibold text-slate-800">Our Latest Products</h2>
         </div>
         <div className="flex flex-col">
           <div className="mb-4">
             <h3 className="text-lg font-bold">Product Categories</h3>
-            <ul className="mt-2 flex gap-x-2">
+            <ul className="mt-2 flex flex-wrap gap-2">
               {categories.map((category) => (
                 <li key={category.id} className="mb-2">
                   <button
                     onClick={() => handleCategorySelect(category.id)}
-                    className={`w-32 text-left py-2 px-4 rounded-lg transition text-center ${
+                    className={`w-28 sm:w-32 text-left py-2 px-4 rounded-lg transition text-center ${
                       selectedCategory === category.id ? 'bg-blue-600 text-white' : 'bg-gray-100'
                     }`}
                   >
