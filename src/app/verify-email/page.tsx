@@ -1,14 +1,14 @@
 "use client";
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
-import api from '@/utils/axios';  // Your axios instance
+
+import { Suspense, useEffect, useState, useRef } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import api from '@/utils/axios'; // Your axios instance
 
 const VerifyEmail = () => {
   const searchParams = useSearchParams();
   const [message, setMessage] = useState('');
   const hasVerified = useRef(false);  // Track if the verification has already happened
-  const router=useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -29,7 +29,6 @@ const VerifyEmail = () => {
         if (response.status === 200) {
           setMessage(response.data.message);
           router.push("/login");
-
         } else {
           setMessage(response.data.message || 'Verification failed.');
         }
@@ -51,4 +50,13 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+// Wrapping VerifyEmail component with Suspense
+const VerifyEmailPage = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyEmail />
+    </Suspense>
+  );
+};
+
+export default VerifyEmailPage;
