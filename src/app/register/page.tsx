@@ -83,7 +83,7 @@ const Register = () => {
 
   const handleResendOTP = async () => {
     try {
-      const response = await axios.post('/api/resend-otp', { email: formData.email });
+      const response = await api.post('/api/resend-otp', { email: formData.email });
       setSuccess(response.data.message);
       setError('');
       setCanResend(false);
