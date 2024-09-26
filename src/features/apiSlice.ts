@@ -11,7 +11,7 @@ import { setToken, clearToken } from "@/features/userSlice"; // Import setToken 
 
 // Base Query Setup
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000",
+  baseUrl: "https://medi-mall-backend.onrender.com",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
 
