@@ -3,13 +3,19 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'http://localhost:5000',
+  timeout: 10000, // Timeout after 10 seconds
+  headers: {
+    'Content-Type': 'application/json',
+    // Add other default headers here
+  },
 });
 
 // Request interceptor for adding the access token to headers
 api.interceptors.request.use(async (config) => {
   const token = localStorage.getItem('accessToken');
+  console.log(token,"front")
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
   return config;
 }, (error) => {

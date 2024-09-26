@@ -3,19 +3,19 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { apiSlice } from '../features/apiSlice';
 import cartReducer from '../features/cartSlice';
-import userReducer from '../features/userSlice';
+import userReducer from '../features/userSlice'; // Ensure this is the correct slice
 
 // Persist configuration
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'user'], // Whitelist slices to persist
+  whitelist: ['cart', 'auth'], 
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
   cart: cartReducer,
-  user: userReducer,
+  auth: userReducer, // Use 'user' or rename this to 'auth' if needed
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
@@ -28,8 +28,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        // Ignore specific paths of non-serializable values if necessary
-        ignoredActions: ['persist/PERSIST'], // Ignore actions from redux-persist
+        ignoredActions: ['persist/PERSIST'], // Ignore persist actions
         ignoredPaths: ['persist.persistentStorage'], // Ignore specific paths
       },
     }).concat(apiSlice.middleware),

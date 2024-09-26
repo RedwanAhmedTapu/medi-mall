@@ -29,7 +29,8 @@ const CategoryForm = () => {
     };
   
     return (
-      <form onSubmit={handleSubmit} className="p-4 max-w-md mx-auto bg-white rounded-lg shadow-md">
+      <div className='w-full h-full '>
+      <form onSubmit={handleSubmit} className="p-4 w-[80%] mx-auto bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Add New Category</h2>
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700">Category Name</label>
@@ -73,6 +74,7 @@ const CategoryForm = () => {
         {isSuccess && <p className="text-green-500 mt-2">Category added successfully!</p>}
         {isError && <p className="text-red-500 mt-2">Failed to add category.</p>}
       </form>
+      </div>
     );
   };
   

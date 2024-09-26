@@ -2,34 +2,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserState {
-  id: string | null;
-  name: string | null;
-  email: string | null;
+  token: string | null;  // Store only the access token initially
 }
 
 const initialState: UserState = {
-  id: null,
-  name: null,
-  email: null,
+  token: null,  // Initialize with no token
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserState>) => {
-      state.id = action.payload.id;
-      state.name = action.payload.name;
-      state.email = action.payload.email;
+    // Set token when the user logs in
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
     },
-    clearUser: (state) => {
-      state.id = null;
-      state.name = null;
-      state.email = null;
+    // Clear token when logging out
+    clearToken: (state) => {
+      state.token = null;
     },
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+// Export the actions
+export const { setToken, clearToken } = userSlice.actions;
 
+// Export the reducer as default
 export default userSlice.reducer;

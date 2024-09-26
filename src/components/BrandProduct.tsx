@@ -158,7 +158,7 @@ export default function BrandsSection() {
                 <img
                   src={brand.imageUrl}
                   alt={brand.title}
-                  className="w-full h-40 object-cover"
+                  className="w-full h-40 object-cover "
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 flex items-center justify-center">
                   <div className="relative top-24 flex w-full h-16 bg-white rounded-lg items-center p-2">

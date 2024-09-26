@@ -1,8 +1,16 @@
 'use client'
 import Image from 'next/image';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function Footer() {
+ const pathname=usePathname();
+
+ if(pathname==="/admin"){
+  return null;
+ }
+
     const currentYear = new Date().getFullYear();
+
   return (
     <footer className="relative top-10 overflow-hidden">
       <div className="bg-gray-900 text-white relative overflow-hidden py-10 px-4">
@@ -80,7 +88,7 @@ export default function Footer() {
       <div className="bg-gray-800 py-4 px-4">
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center text-gray-400">
-            <p className="mb-2 md:mb-0">{currentYear} © all right reserved by <a href="#" className="text-blue-400">RadiusTheme</a></p>
+            <p className="mb-2 md:mb-0">{currentYear} © all right reserved by <a href="#" className="text-blue-400">Medi-mall</a></p>
             <div className="flex justify-center md:justify-end">
               <img
                 src="https://radiustheme.com/demo/wordpress/themes/medimall/wp-content/themes/medimall/assets/img/payments.png"

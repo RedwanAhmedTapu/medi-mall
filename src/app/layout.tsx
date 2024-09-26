@@ -7,6 +7,7 @@ import { store } from "../store/store"; // Adjust the path if necessary
 import ClientRootLayout from "./ClientRootLayout";
 import Header from "@/components/Header";
 import Navbar from "@/components/Navbar";
+import LinknavigationBanner from "../components/LinknavigationBanner"
 import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,6 +28,7 @@ export default function RootLayout({
         <ClientRootLayout>
           <Header/>
           <Navbar />
+          <LinknavigationBanner/>
           {children}
           <Footer/>
         </ClientRootLayout>

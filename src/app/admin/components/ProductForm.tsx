@@ -21,6 +21,7 @@ const ProductForm = () => {
   const { data: categories } = useGetCategoriesQuery();
   const { data: allVariants } = useGetVariantsQuery();
   const [addProduct, { isLoading, isError, isSuccess }] = useAddProductMutation();
+  console.log(categories,"c")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

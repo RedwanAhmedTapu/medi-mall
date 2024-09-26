@@ -2,8 +2,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import api from '@/utils/axios';
 const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -66,7 +65,7 @@ const Register = () => {
     form.append('photo', formData.photo);
 
     try {
-      const response = await axios.post('/api/register', form, {
+      const response = await api.post('/auth/register', form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
